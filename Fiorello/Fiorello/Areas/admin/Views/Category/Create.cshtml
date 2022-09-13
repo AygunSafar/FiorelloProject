@@ -1,0 +1,27 @@
+﻿@using static System.Collections.Specialized.BitVector32
+@model Category
+<div class="raw">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Create Service</h4>
+
+                    <form class="forms-sample" method="post">
+                        <div class="form-group">
+                            <label asp-for="Name">Name</label>
+                            <input asp-for="Name" class="form-control">
+                            <span asp-validation-for="Name" class="text-danger">  </span>
+                        </div>
+                    
+
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <a asp-action="Index" class="btn btn-secondary text-white">Go Back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts{
+        <partial name="_ValidationScriptsPartial" />
+    }

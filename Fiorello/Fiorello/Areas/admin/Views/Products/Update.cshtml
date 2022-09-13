@@ -1,0 +1,64 @@
+﻿@*@using static System.Collections.Specialized.BitVector32*@
+@model Product
+<div class="raw">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Update Product</h4>
+
+                    <form class="forms-sample" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label asp-for="Photo">Photo</label>
+                            <input asp-for="Photo" class="form-control">
+                            <span asp-validation-for="Photo" class="text-danger">  </span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name">Name</label>
+                            <input asp-for="Name" class="form-control">
+                            <span asp-validation-for="Name" class="text-danger">  </span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Price">Price</label>
+                            <input asp-for="Price" class="form-control">
+                            <span asp-validation-for="Price" class="text-danger">  </span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="productDetail.Description">Description</label>
+                            <input asp-for="productDetail.Description" class="form-control">
+                            <span asp-validation-for="productDetail.Description" class="text-danger">  </span>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label>Select Category</label>
+                                <select class="form-control" name="catId">
+
+                                    @foreach (Category cat in ViewBag.Categories)
+                                    {
+                                        if(Model.CategoryId==cat.Id){
+                                            <option selected value="@cat.Id">@cat.Name</option>
+                                        }
+                                        else{
+                                            <option value="@cat.Id">@cat.Name</option>
+                                        }
+                                        
+                                    }
+
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <a asp-action="Index" class="btn btn-secondary text-white">Go Back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    }
+
+
