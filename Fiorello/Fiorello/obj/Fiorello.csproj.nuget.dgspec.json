@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\OneDrive\\Desktop\\Fiorello\\Fiorello\\Fiorello.csproj": {}
+    "C:\\Users\\USER\\OneDrive\\Desktop\\FiorelloProject\\Fiorello\\Fiorello\\Fiorello.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\OneDrive\\Desktop\\Fiorello\\Fiorello\\Fiorello.csproj": {
+    "C:\\Users\\USER\\OneDrive\\Desktop\\FiorelloProject\\Fiorello\\Fiorello\\Fiorello.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\OneDrive\\Desktop\\Fiorello\\Fiorello\\Fiorello.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\OneDrive\\Desktop\\FiorelloProject\\Fiorello\\Fiorello\\Fiorello.csproj",
         "projectName": "Fiorello",
-        "projectPath": "C:\\Users\\USER\\OneDrive\\Desktop\\Fiorello\\Fiorello\\Fiorello.csproj",
+        "projectPath": "C:\\Users\\USER\\OneDrive\\Desktop\\FiorelloProject\\Fiorello\\Fiorello\\Fiorello.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\OneDrive\\Desktop\\Fiorello\\Fiorello\\obj\\",
+        "outputPath": "C:\\Users\\USER\\OneDrive\\Desktop\\FiorelloProject\\Fiorello\\Fiorello\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.17, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.17, )"
