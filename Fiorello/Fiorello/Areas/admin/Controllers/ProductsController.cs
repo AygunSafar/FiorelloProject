@@ -1,16 +1,19 @@
 ﻿using Fiorello.DAL;
 using Fiorello.Helpers;
 using Fiorello.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using static Fiorello.Helpers.Helper;
 
 namespace Fiorello.Areas.admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly AppDBContext _db;
