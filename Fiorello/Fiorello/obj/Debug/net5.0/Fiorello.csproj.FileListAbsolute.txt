@@ -474,3 +474,4 @@ C:\Users\USER\OneDrive\Desktop\FiorelloProject\Fiorello\Fiorello\obj\Debug\net5.
 C:\Users\USER\OneDrive\Desktop\FiorelloProject\Fiorello\Fiorello\obj\Debug\net5.0\Razor\Areas\admin\Views\Users\Create.cshtml.g.cs
 C:\Users\USER\OneDrive\Desktop\FiorelloProject\Fiorello\Fiorello\obj\Debug\net5.0\Razor\Areas\admin\Views\Users\Update.cshtml.g.cs
 C:\Users\USER\OneDrive\Desktop\FiorelloProject\Fiorello\Fiorello\obj\Debug\net5.0\Razor\Areas\admin\Views\Users\ResetPassword.cshtml.g.cs
+C:\Users\USER\OneDrive\Desktop\FiorelloProject\Fiorello\Fiorello\obj\Debug\net5.0\Razor\Areas\admin\Views\Users\ChangeRole.cshtml.g.cs

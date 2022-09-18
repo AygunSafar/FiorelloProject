@@ -1,0 +1,46 @@
+﻿@model ChangeRoleVM
+@using static System.Collections.Specialized.BitVector32
+
+<div class="raw">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Change Role</h4>
+                    @* <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+                    <form class="forms-sample" method="post">
+                        <div class="form-group">
+                            <label asp-for="Username">User Name</label>
+                            <input asp-for="Username" class="form-control">
+                        </div>
+                        <span asp-validation-for="Username" class="text-danger">  </span>
+                        <div>
+                            <select class="form-group" name="newRole">
+                                @foreach (string item in Model.Roles)
+                                {
+                                    if (Model.Role == item)
+                                    {
+                                        <option selected value="@item">@item</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                }
+
+                            </select>
+                        </div>
+                        @*  <span asp-validation-for="Email" class="text-danger">  </span>*@
+
+
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <a asp-action="Index" class="btn btn-secondary text-white">Go Back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts{
+        <partial name="_ValidationScriptsPartial" />
+
+    }

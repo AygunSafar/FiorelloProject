@@ -66,18 +66,19 @@
 
                                     <td>
                                         <div class="d-flex justify-content-end ">
-                                            <a asp-action="ResetPassword" asp-route-id="@item.Id" class="btn btn-warning text-white mx-2 btn-rounded">ResetPassword</a>
-                                                <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-success text-white mx-2 btn-rounded">Update</a>
+                                            <a asp-action="ResetPassword" asp-route-id="@item.Id" class="btn btn-outline-warning mx-2 btn-rounded">Reset Password</a>
+                                            <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-outline-success mx-2 btn-rounded">Update</a>
+                                            <a asp-action="ChangeRole" asp-route-id="@item.Id" class=" btn btn-outline-info mx-2 btn-rounded">Change Role</a>
                                             @if(item.UserName != User.Identity.Name){
                                                 
 
                                                 @if (item.IsDeactive)
                                                 {
-                                                    <a asp-action="Activity" asp-route-id="@item.Id" class="btn btn-success text-white mx-2 btn-rounded">Activate</a>
+                                                    <a asp-action="Activity" asp-route-id="@item.Id" class="btn btn-outline-dark  mx-2 btn-rounded">Activate</a>
                                                 }
                                                 else
                                                 {
-                                                    <a asp-action="Activity" asp-route-id="@item.Id" class="btn btn-danger text-white mx-2 btn-rounded">Deactivate</a>
+                                                    <a asp-action="Activity" asp-route-id="@item.Id" class="btn btn-outline-danger  mx-2 btn-rounded">Deactivate</a>
 
                                                 }
                                             }

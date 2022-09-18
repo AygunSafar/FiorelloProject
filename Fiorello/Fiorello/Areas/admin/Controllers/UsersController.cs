@@ -21,7 +21,7 @@ namespace Fiorello.Areas.admin.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppDBContext _db;
-        public UsersController(AppDBContext db,UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UsersController(AppDBContext db, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -36,14 +36,14 @@ namespace Fiorello.Areas.admin.Controllers
             List<UserVM> userVMs = new List<UserVM>();
             foreach (AppUser user in users)
             {
-                UserVM userVM = new UserVM 
-                { 
-                 FullName=user.FullName,
-                 UserName=user.UserName,
-                 Email=user.Email,
-                 Id=user.Id,
-                 IsDeactive=user.IsDeactive,
-                 Role=(await _userManager.GetRolesAsync(user)).FirstOrDefault()
+                UserVM userVM = new UserVM
+                {
+                    FullName = user.FullName,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Id = user.Id,
+                    IsDeactive = user.IsDeactive,
+                    Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
                 };
                 userVMs.Add(userVM);
 
@@ -100,7 +100,7 @@ namespace Fiorello.Areas.admin.Controllers
                 }
                 return View();
             }
-            
+
             await _userManager.AddToRoleAsync(appUser, Helper.Roles.Admin.ToString());
             return RedirectToAction("Index", "Home");
 
@@ -117,14 +117,15 @@ namespace Fiorello.Areas.admin.Controllers
             {
                 return BadRequest();
             }
-            UpdateVM dbUpdateVM = new UpdateVM { 
-             FullName=user.FullName,
-             Email=user.Email,
-             UserName=user.UserName,
-             
+            UpdateVM dbUpdateVM = new UpdateVM
+            {
+                FullName = user.FullName,
+                Email = user.Email,
+                UserName = user.UserName,
+
             };
 
-           
+
             return View(dbUpdateVM);
 
         }
@@ -132,9 +133,9 @@ namespace Fiorello.Areas.admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Update(string id,UpdateVM updateVM)
+        public async Task<IActionResult> Update(string id, UpdateVM updateVM)
         {
-         
+
             if (id == null)
             {
                 return NotFound();
@@ -161,13 +162,13 @@ namespace Fiorello.Areas.admin.Controllers
             //    ModelState.AddModelError(" ", "This Username is already Exist");
             //    return View(dbUpdateVM);
             //}
-            bool isExistName = await _db.Users.AnyAsync(x => x.UserName == updateVM.UserName && x.Id!=id);
+            bool isExistName = await _db.Users.AnyAsync(x => x.UserName == updateVM.UserName && x.Id != id);
             if (isExistName)
             {
                 ModelState.AddModelError("UserName", "This Username is already exist");
                 return View(dbUpdateVM);
             }
-            bool isExistEmail = await _db.Users.AnyAsync(x => x.Email == updateVM.Email&&x.Id != id);
+            bool isExistEmail = await _db.Users.AnyAsync(x => x.Email == updateVM.Email && x.Id != id);
             if (isExistEmail)
             {
                 ModelState.AddModelError("Email", "This Email is already exist");
@@ -200,7 +201,7 @@ namespace Fiorello.Areas.admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(string id,ResetPasswordVM resetPasswordVM)
+        public async Task<IActionResult> ResetPassword(string id, ResetPasswordVM resetPasswordVM)
         {
             if (id == null)
             {
@@ -212,13 +213,13 @@ namespace Fiorello.Areas.admin.Controllers
                 return BadRequest();
             }
             string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            IdentityResult identityResult = await _userManager.ResetPasswordAsync(user,token,resetPasswordVM.Password);
+            IdentityResult identityResult = await _userManager.ResetPasswordAsync(user, token, resetPasswordVM.Password);
             if (!identityResult.Succeeded)
             {
                 foreach (IdentityError error in identityResult.Errors)
                 {
-                    ModelState.AddModelError("",error.Description);
-                    
+                    ModelState.AddModelError("", error.Description);
+
                 }
                 return View();
             }
@@ -227,5 +228,78 @@ namespace Fiorello.Areas.admin.Controllers
             return RedirectToAction("Index");
 
         }
-    } 
+
+        public async Task<IActionResult> ChangeRole(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            AppUser user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            List<string> roles = new List<string>();
+            roles.Add(Helper.Roles.Admin.ToString());
+            roles.Add(Helper.Roles.Member.ToString());
+
+            string oldRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+            ChangeRoleVM changeRole = new ChangeRoleVM
+
+            {
+                Username = user.UserName,
+                Role = oldRole,
+                Roles = roles
+            };
+
+            return View(changeRole);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeRole(string id, string newRole)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            AppUser user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            List<string> roles = new List<string>();
+            roles.Add(Helper.Roles.Admin.ToString());
+            roles.Add(Helper.Roles.Member.ToString());
+
+            string oldRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+            ChangeRoleVM changeRole = new ChangeRoleVM
+
+            {
+                Username = user.UserName,
+                Role = oldRole,
+                Roles = roles
+            };
+            IdentityResult addIdentityResult = await _userManager.AddToRoleAsync(user, newRole);
+            if (!addIdentityResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Error");
+                return View(changeRole);
+            }
+            IdentityResult removeIdentityResult = await _userManager.RemoveFromRoleAsync(user, oldRole);
+            if (!removeIdentityResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Error");
+                return View(changeRole);
+            }
+
+
+            return RedirectToAction("Index");
+        }
+    }
 }
