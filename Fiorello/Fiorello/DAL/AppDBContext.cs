@@ -13,6 +13,7 @@ namespace Fiorello.DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductDetail> ProductDetalies { get; set; }
+        public DbSet<Subscribe> Subscribes { get; set; }
     }  
   
 

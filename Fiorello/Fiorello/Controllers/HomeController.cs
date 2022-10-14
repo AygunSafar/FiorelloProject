@@ -1,4 +1,5 @@
 ﻿using Fiorello.DAL;
+using Fiorello.Helpers;
 using Fiorello.Models;
 using Fiorello.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace Fiorello.Controllers
         private readonly AppDBContext _db;
         public HomeController(AppDBContext db)
         {
-                        _db = db;
+            _db = db;
         }
 
         public async Task<IActionResult> Index()
@@ -25,19 +26,51 @@ namespace Fiorello.Controllers
             HomeVM homeVM = new HomeVM
             {
 
-                Products =await  _db.Products.Where(x=> !x.IsDeactive).ToListAsync(),
-                Categories =await _db.Categories.Where(x => !x.IsDeactive).ToListAsync(),
-             
+                Products = await _db.Products.Where(x => !x.IsDeactive).ToListAsync(),
+                Categories = await _db.Categories.Where(x => !x.IsDeactive).ToListAsync(),
+
 
             };
-        
-        
+
+
             return View(homeVM);
         }
 
-   
+        public async Task<IActionResult> SubscribeAsync(string email)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                if (!Helper.IsValidEmail(email))
+                {
+                    return Content("Bu email adres deyil");
+                }
+                bool isExist = await _db.Subscribes.AnyAsync(x => x.Email == email);
+                if (!isExist)
+                {
+                    return Content("Bu email artiq abunedir");
+                }
+                await _db.Subscribes.AddAsync(new Subscribe { Email = email });
+                await _db.SaveChangesAsync();
+               
+            }
+            else
+            {
+                bool isExist = await _db.Subscribes.AnyAsync(x => x.Email == email);
+                if (!isExist)
+                {
+                    return Content("Bu email artiq abunedir");
+                }
+                AppUser appUser = await _db.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
+                await _db.Subscribes.AddAsync(new Subscribe { Email = appUser.Email });
+                await _db.SaveChangesAsync();
+            }
+            return Content("Tebrikler siz abone oldunuz");
 
-       
+        }
+
+
+
+
         public IActionResult Error()
         {
             return View();
