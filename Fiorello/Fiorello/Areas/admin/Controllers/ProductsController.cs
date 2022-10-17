@@ -70,6 +70,11 @@ namespace Fiorello.Areas.admin.Controllers
             product.CategoryId = catId;
             await _db.Products.AddAsync(product);
             await _db.SaveChangesAsync();
+            List<Subscribe> subscribes = await _db.Subscribes.ToListAsync();
+            foreach (Subscribe item in subscribes)
+            {
+                Helper.SendMessage("Hər vaxtınız xeyir olsun", "Yeni cixan mehsullarla elaqedar linke kecid edin.", item.Email);
+            }
 
             return RedirectToAction("Index");
         }

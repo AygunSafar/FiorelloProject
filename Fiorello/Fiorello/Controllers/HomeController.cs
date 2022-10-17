@@ -36,7 +36,7 @@ namespace Fiorello.Controllers
             return View(homeVM);
         }
 
-        public async Task<IActionResult> SubscribeAsync(string email)
+        public async Task<IActionResult> Subscribe(string email)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -45,7 +45,7 @@ namespace Fiorello.Controllers
                     return Content("Bu email adres deyil");
                 }
                 bool isExist = await _db.Subscribes.AnyAsync(x => x.Email == email);
-                if (!isExist)
+                if (isExist)
                 {
                     return Content("Bu email artiq abunedir");
                 }
@@ -55,11 +55,7 @@ namespace Fiorello.Controllers
             }
             else
             {
-                bool isExist = await _db.Subscribes.AnyAsync(x => x.Email == email);
-                if (!isExist)
-                {
-                    return Content("Bu email artiq abunedir");
-                }
+               
                 AppUser appUser = await _db.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
                 await _db.Subscribes.AddAsync(new Subscribe { Email = appUser.Email });
                 await _db.SaveChangesAsync();
